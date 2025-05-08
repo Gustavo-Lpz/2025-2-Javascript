@@ -10,6 +10,9 @@ async function main() {
   const resta = num1 - num2;
   const multiplicación = num1 * num2;
   const division = num1 / num2;
+  const resta = num1 - num2;
+  const multiplicación = num1 * num2;
+  const division = num1 / num2;
   // TODO: Implementar la resta, multiplicación y división
 
   console.log('Suma:', suma, 'Resta:', resta, 'Multiplicación:', multiplicación, 'Division:', division);
