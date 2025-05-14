@@ -10,7 +10,7 @@ async function main() {
      if (i % 2 === 0) { // i % 2 === 0 verifica si el número i es divisible entre 2 sin dejar residuo, lo que indica que es un número par.
       console.log(i);
     }
-    i++; // incrementa el valor de i en 1, si no se incluye esta linea el bucle se convertiria en un blucle infinito
+    i++; // incrementa el valor de i en 1, si no se incluye esta linea el bucle se convertiria en un bucle infinito
   }
 }
 
