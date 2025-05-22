@@ -14,7 +14,18 @@ async function main() {
 
   if (temperatura < 10) {
     console.log("Hace frío");
+  } else if (temperatura >=10 && temperatura <20) {
+    console.log ('Esta templado');
+  } else if (temperatura >=20 && temperatura <30) {
+    console.log ('Hace calor');
+  } else if (temperatura >=30 && temperatura <40) {
+    console.log ('Hace mucho calor');
+  } else if (temperatura >=40) {
+    console.log ('Somos Pollos en esta Rosticeria llamada Vida')
+  } else {
+    console.log ('No se cumplen con las condiciones')
   }
+
   // TODO: Implementar la lógica para temperaturas entre 10 y 20 grados
   // TODO: Implementar la lógica para temperaturas entre 20 y 30 grados
   // TODO: Implementar la lógica para temperaturas superiores a 30 grados

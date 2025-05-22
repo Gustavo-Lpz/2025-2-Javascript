@@ -15,90 +15,98 @@
 // El promedio general de calificaciones.
 // La calificación mayor.
 // La calificación menor.
+
 const { ask } = require('../helpers/input');
 
-function obtenerPromedio(numeros) {
-  let total = 0;
-  for (let i = 0; i < numeros.length; i++) {
-    total = total + numeros[i];
-  }
-  const promedio = total / numeros.length;
-
-  return promedio;
-}
-
-function obtenerMayor(numeros) {
-  let mayor = numeros[0];
-  for (let i = 0; i < numeros.length; i++) {
-    if (numeros[i] > mayor) {
-      mayor = numeros[i];
-    }
-  }
-  return mayor;
-}
-
-function obtenerMenor(numeros) {
-  let menor = numeros[0];
-  for (let i = 0; i < numeros.length; i++) {
-    if (numeros[i] < menor) {
-      menor = numeros[i];
-    }
-  }
-  return menor;
-}
-
-function obtenerAprobados(numeros) {
-  let aprobados = 0;
-  let reprobados = 0;
-  for (let i = 0; i < numeros.length; i++) {
-    if (numeros[i] >= 70) {
-      aprobados++;
-    } else {
-      reprobados++;
-    }
-  }
-  return { aprobados, reprobados };
-}
-
-function analizarCalificaciones(calificaciones) {
-  const res = obtenerAprobados(calificaciones);
-  let aprobados = res.aprobados;
-  let reprobados = res.reprobados;
-  let promedio = obtenerPromedio(calificaciones);
-  let califAlta = obtenerMayor(calificaciones);
-  let califBaja = obtenerMenor(calificaciones);
-
-  return { aprobados, reprobados, promedio, califAlta, califBaja };
-}
-
 async function main() {
-  let opcion = 0;
-  const alumnos = [];
+    let opcion = '';
+    let Alumnos = [];
 
-  while (opcion !== 3) {
-    opcion = Number(await ask(`Selecciona la opcion deseada \n1: Agregar Alumno: \n2: Mostrar resultados: \n3: Salir : `));
-    if (opcion === 1) {
-      const nombre = await ask(`Introduce el nombre del alumno`);
-      const edad = Number(await ask(`Introduce la edad del alumno`));
-      const calificacion = Number(await ask(`Introduce la calificacion del alumno`));
-      alumnos.push({ nombre, edad, calificacion });
-    } else if (opcion === 2) {
+    while (opcion !== '2') {
+        opcion = await ask('¿Qué deseas hacer?\n1. Agregar Alumno\n2. Salir\n');
 
-      if (alumnos.length === 0) {
-        console.log("No hay alumnos que analizar");
-      } else {
-        console.log(alumnos);
-        const calificaciones = [];
+        if (opcion === "1") {
+            let nombre = await ask('Nombre del Alumno: ');
+            let edad = await ask('Edad del Alumno: ');
+            let calificacionStr = await ask('Calificación del Alumno: ');
+            let calificacion = parseFloat(calificacionStr);
 
-        for (let i = 0; i < alumnos.length; i++) {
-          calificaciones.push(alumnos[i].calificacion);
+            if (!isNaN(calificacion)) {
+                Alumnos.push({ nombre, edad, calificacion });
+                console.log(`Alumno agregado: ${nombre}`);
+            } else {
+                console.log('Calificación inválida. Intenta de nuevo.');
+            }
         }
-        console.log(analizarCalificaciones(calificaciones));
-      }
-    } else {
-      console.log("Opción inválida");
+
+        else if (opcion !== "2") {
+            console.log('Opción inválida. Intenta de nuevo.');
+        }
     }
-  }
+
+    // Al salir
+    console.log('\nSaliendo');
+    if (Alumnos.length > 0) {
+        console.log('\n Estadísticas Finales:');
+        Estadisticas(Alumnos);
+    } else {
+        console.log('No se registraron alumnos.');
+    }
 }
+
+
+// Función para calcular y mostrar estadísticas
+function Estadisticas(alumnos) {
+    const promedio = obtenerPromedio(alumnos);
+    const mayor = obtenerMayor(alumnos);
+    const menor = obtenerMenor(alumnos);
+   
+    calificacion(alumnos);
+    edadVotar(alumnos);
+    console.log(`Promedio General: ${promedio.toFixed(2)}`);
+    console.log(`Calificación más alta: ${mayor}`);
+    console.log(`Calificación más baja: ${menor}`);
+   
+}
+
+
+//Funcion para mostrar la calificacion minima aprobatoria
+function calificacion(alumnos){
+    for (let alumno of alumnos){
+    if (alumno.calificacion >= 70){
+        console.log (` ${alumno.nombre} saco ${alumno.calificacion} Aprobo`);
+        } else {
+        console.log (` ${alumno.nombre} saco ${alumno.calificacion} Reprobo`);
+        }
+    }
+}
+
+//Funcion para la edad minima para votar
+function edadVotar(alumnos){
+    for (let alumno of alumnos){
+     if (alumno.edad >= 18) {
+        console.log(` ${alumno.nombre} tiene ${alumno.edad} Es mayor de edad, puede votar`);
+      } else {
+        console.log(` ${alumno.nombre} tiene ${alumno.edad} No es mayor de edad, No puede votar`);
+      }
+    }
+}
+
+function obtenerPromedio(alumnos) {
+    let suma = 0;
+    for (let alumno of alumnos) {
+        suma += alumno.calificacion;
+    }
+    return suma / alumnos.length;
+}
+
+function obtenerMayor(alumnos) {
+    return Math.max(...alumnos.map(a => a.calificacion));
+}
+
+function obtenerMenor(alumnos) {
+    return Math.min(...alumnos.map(a => a.calificacion));
+}
+
 
 main();

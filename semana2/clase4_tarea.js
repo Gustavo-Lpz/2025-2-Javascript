@@ -13,6 +13,8 @@
 //
 //La calificación más alta y la más baja
 
+const { ask } = require('../helpers/input');
+
 function obtenerPromedio(numeros) {
   let total = 0;
   for (let i = 0; i < numeros.length; i++) {
@@ -43,35 +45,22 @@ function obtenerMenor(numeros) {
   return menor;
 }
 
-function obtenerAprobados(numeros) {
-  let aprobados = 0;
-  let reprobados = 0;
-  for (let i = 0; i < numeros.length; i++) {
-    if (numeros[i] >= 70) {
-      aprobados++;
-    } else {
-      reprobados++;
-    }
-  }
-  return { aprobados, reprobados };
-}
-
-function analizarCalificaciones(calificaciones) {
-  const res = obtenerAprobados(calificaciones);
-  let aprobados = res.aprobados;
-  let reprobados = res.reprobados;
-  let promedio = obtenerPromedio(calificaciones);
-  let califAlta = obtenerMayor(calificaciones);
-  let califBaja = obtenerMenor(calificaciones);
-
-  return { aprobados, reprobados, promedio, califAlta, califBaja };
-}
 
 async function main() {
-  const calificaciones = [90, 89, 34, 45, 67, 89, 23, 12, 45, 89, 8, 90]
-  const resultado = analizarCalificaciones(calificaciones);
-  console.log(resultado);
 
+  const calificaciones = [70, 80, 90, 100, 85, 50, 35, 25, 20, 15, 1, 60, 20, 30, 40, 75];
+
+  for (let i = 0; i < calificaciones.length; i++) {
+    if (calificaciones[i] >= 70) {
+      console.log(`La Calificación ${calificaciones[i]}: es Aprobatoria`);
+    } else {
+      console.log(`La Calificación ${calificaciones[i]}: es Reprobatoria`);
+    }
+  }
+
+  console.log(`Promedio General= ${obtenerPromedio(calificaciones)}`);
+  console.log(`La califiación mas alta es: ${obtenerMayor(calificaciones)}`);
+  console.log(`La calificación mas baja es: ${obtenerMenor(calificaciones)}`);
 }
 
 main();
